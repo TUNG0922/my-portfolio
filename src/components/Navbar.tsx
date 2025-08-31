@@ -1,10 +1,20 @@
+import { useState } from "react";
+import { FaBars, FaTimes } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
 export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const links = [
+    { name: "Home", path: "/" },
+    { name: "About", path: "/about" },
+    { name: "Projects", path: "/projects" },
+  ];
+
   return (
     <nav className="bg-gray-950 text-white sticky top-0 z-50 shadow-md">
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-        {/* Logo / Brand */}
+        {/* Logo */}
         <h1 className="text-2xl font-extrabold tracking-wide">
           <NavLink
             to="/"
@@ -14,69 +24,62 @@ export default function Navbar() {
           </NavLink>
         </h1>
 
-        {/* Navigation Links */}
+        {/* Desktop Links */}
         <div className="hidden md:flex space-x-8 font-medium">
-          <NavLink
-            to="/"
-            className={({ isActive }): string =>
-              `relative group transition ${
-                isActive ? "text-teal-400" : "text-gray-300"
-              }`
-            }
-          >
-            {({ isActive }) => (
-              <>
-                Home
-                <span
-                  className={`absolute left-0 -bottom-1 h-[2px] bg-teal-400 transition-all duration-300 ${
-                    isActive ? "w-full" : "w-0 group-hover:w-full"
-                  }`}
-                ></span>
-              </>
-            )}
-          </NavLink>
+          {links.map((link) => (
+            <NavLink
+              key={link.name}
+              to={link.path}
+              className={({ isActive }) =>
+                `relative group transition ${
+                  isActive ? "text-teal-400" : "text-gray-300"
+                }`
+              }
+            >
+              {({ isActive }) => (
+                <>
+                  {link.name}
+                  <span
+                    className={`absolute left-0 -bottom-1 h-[2px] bg-teal-400 transition-all duration-300 ${
+                      isActive ? "w-full" : "w-0 group-hover:w-full"
+                    }`}
+                  ></span>
+                </>
+              )}
+            </NavLink>
+          ))}
+        </div>
 
-          <NavLink
-            to="/about"
-            className={({ isActive }): string =>
-              `relative group transition ${
-                isActive ? "text-teal-400" : "text-gray-300"
-              }`
-            }
+        {/* Mobile Hamburger */}
+        <div className="md:hidden">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="text-gray-300 hover:text-teal-400 focus:outline-none"
           >
-            {({ isActive }) => (
-              <>
-                About
-                <span
-                  className={`absolute left-0 -bottom-1 h-[2px] bg-teal-400 transition-all duration-300 ${
-                    isActive ? "w-full" : "w-0 group-hover:w-full"
-                  }`}
-                ></span>
-              </>
-            )}
-          </NavLink>
-
-          <NavLink
-            to="/projects"
-            className={({ isActive }): string =>
-              `relative group transition ${
-                isActive ? "text-teal-400" : "text-gray-300"
-              }`
-            }
-          >
-            {({ isActive }) => (
-              <>
-                Projects
-                <span
-                  className={`absolute left-0 -bottom-1 h-[2px] bg-teal-400 transition-all duration-300 ${
-                    isActive ? "w-full" : "w-0 group-hover:w-full"
-                  }`}
-                ></span>
-              </>
-            )}
-          </NavLink>
+            {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      {isOpen && (
+        <div className="md:hidden bg-gray-900 text-center py-4 space-y-4">
+          {links.map((link) => (
+            <NavLink
+              key={link.name}
+              to={link.path}
+              onClick={() => setIsOpen(false)}
+              className={({ isActive }) =>
+                `block text-lg font-medium transition ${
+                  isActive ? "text-teal-400" : "text-gray-300"
+                }`
+              }
+            >
+              {link.name}
+            </NavLink>
+          ))}
+        </div>
+      )}
     </nav>
   );
 }
