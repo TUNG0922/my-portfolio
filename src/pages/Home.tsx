@@ -1,3 +1,7 @@
+"use client";
+
+import { Link } from "react-router-dom";
+
 export default function Home() {
   return (
     <section className="flex flex-col items-center justify-center min-h-[80vh] text-center px-6 bg-gray-900 text-gray-200">
@@ -18,18 +22,18 @@ export default function Home() {
 
       {/* CTA Buttons */}
       <div className="space-x-4">
-        <a
-          href="/projects"
+        <Link
+          to="/projects"
           className="px-6 py-3 bg-teal-500 text-white rounded-lg shadow-md hover:bg-teal-600 transition"
         >
           View My Projects
-        </a>
-        <a
-          href="/about"
+        </Link>
+        <Link
+          to="/about"
           className="px-6 py-3 border border-gray-600 text-gray-300 rounded-lg hover:bg-gray-800 transition"
         >
           About Me
-        </a>
+        </Link>
       </div>
 
       {/* Profile Avatars (GitHub + LinkedIn + Download Resume) */}
